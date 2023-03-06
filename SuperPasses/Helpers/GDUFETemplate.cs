@@ -15,13 +15,13 @@ public class GDUFETemplate
     public string GetCertificationRequest(string account, string password, string mac, string ip)
     {
         return
-            $@"'{_certificationURL}&user_account=%2C0%2C{account}&user_password={password}&wlan_user_ip={ip}&wlan_user_ipv6=&wlan_user_mac={mac}{_urlSuffix}'{_param1}{_param2}{_param3}{_param4}{_param5}";
+            $"'{_certificationURL}&user_account=%2C0%2C{account}&user_password={password}&wlan_user_ip={ip}&wlan_user_ipv6=&wlan_user_mac={mac}{_urlSuffix}'{_param1}{_param2}{_param3}{_param4}{_param5}";
     }
     
     // 不超过512个字节
     public string GetCertificationRequestShort(string account, string password, string mac, string ip)
     {
         return
-            $@"'{_certificationURL}&user_account=%2C0%2C{account}&user_password={password}&wlan_user_ip={ip}&wlan_user_ipv6=&wlan_user_mac={mac}{_urlSuffix}'{_param1}{_param2}{_param3}{_param4}";
+            $"'{_certificationURL}&user_account=%2C0%2C{account}&user_password={password}&wlan_user_ip={ip}&wlan_user_ipv6=&wlan_user_mac={mac}{_urlSuffix}'{_param1}{_param2}{_param3}{_param4}";
     }
 }

@@ -17,7 +17,7 @@ namespace SuperPasses.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     private readonly string _dataPath = "";
-    private SimpleLog _simpleLog;
+    private readonly SimpleLog _simpleLog;
     private SshClient? _sshClient;
     public MainWindowViewModel()
     {
@@ -68,12 +68,20 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _sshStatus, value);
     }
 
-    private string _interfaceName = "wwan";
+    private string _interfaceName = "wan";
 
     public string InterfaceName
     {
         get => _interfaceName;
         set => this.RaiseAndSetIfChanged(ref _interfaceName, value);
+    }
+
+    private string _deviceName = "eth0.2";
+
+    public string DeviceName
+    {
+        get => _deviceName;
+        set => this.RaiseAndSetIfChanged(ref _deviceName, value);
     }
 
     private string _checkNetStatus = "";
@@ -128,6 +136,8 @@ public class MainWindowViewModel : ViewModelBase
             RouterPassword = ret.RouterPassword;
             SchoolAccount = ret.SchoolAccount;
             SchoolPassword = ret.SchoolPassword;
+            InterfaceName = ret.InterfaceName;
+            DeviceName = ret.DeviceName;
         }
         catch (Exception e)
         {
@@ -151,7 +161,8 @@ public class MainWindowViewModel : ViewModelBase
             {
                 RouterIp = RouterIp, RouterPort = RouterPort,
                 RouterAccount = RouterAccount, RouterPassword = RouterPassword,
-                SchoolAccount = SchoolAccount, SchoolPassword = SchoolPassword
+                SchoolAccount = SchoolAccount, SchoolPassword = SchoolPassword,
+                DeviceName = DeviceName, InterfaceName = InterfaceName
             };
             
             var cfgPath = Path.Combine(_dataPath, "config.json");
@@ -280,7 +291,7 @@ public class MainWindowViewModel : ViewModelBase
                     return;
                 }
 
-                using var cmd1 = _sshClient.CreateCommand(BashHelper.GetMacAddress(InterfaceName));
+                using var cmd1 = _sshClient.CreateCommand(BashHelper.GetMacAddress(DeviceName));
                 var mac = cmd1.Execute();
                 mac = mac.Replace("\n", "").Replace(":", "");
                 CheckNetStatus += $"mac address is:{mac}";
@@ -288,7 +299,7 @@ public class MainWindowViewModel : ViewModelBase
                 using var cmd2 = _sshClient.CreateCommand(BashHelper.GetIpAddress(InterfaceName));
                 var ip = cmd2.Execute();
                 ip = ip.Replace("\n", "").Replace(":", "");
-                CheckNetStatus += $"ip address is:{ip}";
+                CheckNetStatus += $" | ip address is:{ip}";
 
                 _mac = mac;
                 _ip = ip;
@@ -317,7 +328,7 @@ public class MainWindowViewModel : ViewModelBase
                     return;
                 }
                 var reqStr = new GDUFETemplate().GetCertificationRequestShort(SchoolAccount, SchoolPassword, _mac, _ip);
-                reqStr = "curl " + reqStr;
+                reqStr = "curl " + reqStr + " --connect-timeout 5";
 
                 // if (reqStr.Length > 500)
                 // {
@@ -335,10 +346,17 @@ public class MainWindowViewModel : ViewModelBase
                 //     Thread.Sleep(100);
                 //     File.AppendAllLines(path, l);
                 // }
+
+                Log($"命令长度 = {reqStr.Length}");
+                Log($"request string is : {reqStr}");
                 
                 using var cmd = _sshClient.CreateCommand(reqStr);
                 var ret = cmd.Execute();
+                if (string.IsNullOrEmpty(ret))
+                    ret = "stdout 没有输出内容！！";
                 LoginStatus = $"Login Result is : {ret}";
+                
+                Log(LoginStatus);
             }
             catch (Exception e)
             {

@@ -6,17 +6,17 @@ namespace SuperPasses.Helpers;
 public class BashHelper
 {
     // 返回的格式： 00:0C:29:A1:63:66
-    public static string GetMacAddress(string interfaceName)
+    public static string GetMacAddress(string deviceName)
     {
-        var command = @"ifconfig | grep INTERFACE | awk '{ print $5}'";
-        command = command.Replace("INTERFACE", interfaceName);
+        var command = @"ifconfig | grep DEVICENAME | awk '{ print $5}'";
+        command = command.Replace("DEVICENAME", deviceName);
         return command;
     }
 
     public static string GetIpAddress(string interfaceName)
     {
-        var command = @"ifstatus INTERFACE |  jsonfilter -e '@['ipv4-address'][0].address'";
-        command = command.Replace("INTERFACE", interfaceName);
+        var command = "ifstatus INTERFACENAME |  jsonfilter -e '@[\"ipv4-address\"][0].address'";
+        command = command.Replace("INTERFACENAME", interfaceName);
         return command;
     }
 

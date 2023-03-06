@@ -39,8 +39,10 @@
             <TextBox IsReadOnly="True" TextWrapping="Wrap" Height="80" MaxHeight="80" Margin="5" Text="{Binding SshStatus}"></TextBox>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
-            <Label VerticalAlignment="Center">网卡名称:</Label>
+            <Label VerticalAlignment="Center">接口名称:</Label>
             <TextBox TextWrapping="NoWrap" MinWidth="80" Width="80" Text="{Binding InterfaceName}"></TextBox>
+            <Label VerticalAlignment="Center">网卡名称:</Label>
+            <TextBox TextWrapping="NoWrap" MinWidth="80" Width="80" Text="{Binding DeviceName}"></TextBox>
             <Button Margin="10 0 0 0" Command="{Binding CheckRouterNetWork}">二、检查路由器网络状态</Button>
             <Button Margin="20 0" Command="{Binding OpenRouterWebPage}">路由器网页</Button>
         </StackPanel>
@@ -59,6 +61,5 @@
             <Label>登录信息:</Label>
             <TextBox IsReadOnly="True" Height="80" TextWrapping="Wrap" MaxHeight="80" Margin="5" Text="{Binding LoginStatus}"></TextBox>
         </StackPanel>
-        
     </Grid>
 </Window>

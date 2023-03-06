@@ -8,4 +8,6 @@ public class Config
     public string RouterPassword { get; set; } = "";
     public string SchoolAccount { get; set; } = "";
     public string SchoolPassword { get; set; } = "";
+    public string InterfaceName { get; set; } = "wan";
+    public string DeviceName { get; set; } = "eth0.2";
 }
