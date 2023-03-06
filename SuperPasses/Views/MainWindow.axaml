@@ -1,0 +1,64 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SuperPasses.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:SuperPasses.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+        x:Class="SuperPasses.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        WindowStartupLocation="CenterScreen"
+        Width="800" Height="600"
+        MinWidth="800" MinHeight="600" 
+        Title="SuperPasses">
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <Window.Styles>
+        <Style Selector="TextBox">
+            <Setter Property="FontFamily" Value="Microsoft YaHei,Simsun,苹方-简,宋体-简"></Setter>
+        </Style>
+    </Window.Styles>
+    <Grid RowDefinitions="50 120 50 120 50 120" Margin="10 20">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Label>路由器IP地址:</Label>
+            <TextBox TextWrapping="NoWrap" Width="150" Text="{Binding RouterIp}" Watermark="192.168.101.1"></TextBox>
+            <Label Margin="10 0 0 0">路由器SSH端口:</Label>
+            <TextBox TextWrapping="NoWrap" Watermark="22" Text="{Binding RouterPort}"></TextBox>
+            <Label Margin="10 0 0 0">账号:</Label>
+            <TextBox TextWrapping="NoWrap" Watermark="root" Text="{Binding RouterAccount}"></TextBox>
+            <Label Margin="10 0 0 0">密码:</Label>
+            <TextBox TextWrapping="NoWrap" PasswordChar="*" Text="{Binding RouterPassword}"></TextBox>
+            <Button Margin="20 0 0 0" Width="80" IsEnabled="{Binding SSHEnable}" Command="{Binding ConnectSSH}">一、连接</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <Label>连接信息:</Label>
+            <TextBox IsReadOnly="True" TextWrapping="Wrap" Height="80" MaxHeight="80" Margin="5" Text="{Binding SshStatus}"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
+            <Label VerticalAlignment="Center">网卡名称:</Label>
+            <TextBox TextWrapping="NoWrap" MinWidth="80" Width="80" Text="{Binding InterfaceName}"></TextBox>
+            <Button Margin="10 0 0 0" Command="{Binding CheckRouterNetWork}">二、检查路由器网络状态</Button>
+            <Button Margin="20 0" Command="{Binding OpenRouterWebPage}">路由器网页</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Vertical">
+            <Label Margin=" 5">路由器网络状态:(无法获取到IP地址时需要检查网线是否接好)</Label>
+            <TextBox Text="{Binding CheckNetStatus}" IsReadOnly="True" Height="70" Margin="5" MaxHeight="70"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Center">
+            <Label>校园网账号:</Label>
+            <TextBox TextWrapping="NoWrap" Width="150" Text="{Binding SchoolAccount}"></TextBox>
+            <Label Margin="10 0 0 0">校园网密码:</Label>
+            <TextBox TextWrapping="NoWrap" PasswordChar="*" Width="150" Text="{Binding SchoolPassword}"></TextBox>
+            <Button Margin="30 0 0 0" Width="80" Command="{Binding LoginSchoolNet}">三、登录</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="5" Orientation="Vertical">
+            <Label>登录信息:</Label>
+            <TextBox IsReadOnly="True" Height="80" TextWrapping="Wrap" MaxHeight="80" Margin="5" Text="{Binding LoginStatus}"></TextBox>
+        </StackPanel>
+        
+    </Grid>
+</Window>
