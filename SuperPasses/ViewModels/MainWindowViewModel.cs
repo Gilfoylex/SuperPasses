@@ -219,6 +219,7 @@ public class MainWindowViewModel : ViewModelBase
                     SshStatus = e.Message;
                     Log(e.Message);
                     Console.WriteLine(e);
+                    return;
                 }
                 
                 SshStatus += $"{RouterIp} connect success!";
